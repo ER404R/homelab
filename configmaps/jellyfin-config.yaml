@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jellyfin-config
+data:
+  user_id: "1000"
+  group_id: "1000"
+  time_zone: "Europe/Berlin"

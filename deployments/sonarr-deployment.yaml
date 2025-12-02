@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: Deployment
+metadata:
+  name: sonarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sonarr
+  template:
+    metadata:
+      labels:
+        app: sonarr
+    spec:
+      containers:
+        - name: sonarr
+          image: lscr.io/linuxserver/sonarr:latest
+          env:
+            - name: PUID
+              valueFrom:
+                configMapKeyRef:
+                  name: jellyfin-config
+                  key: user_id
+            - name: PGID
+              valueFrom:
+                configMapKeyRef:
+                  name: jellyfin-config
+                  key: group_id
+            - name: TZ
+              valueFrom:
+                configMapKeyRef:
+                  name: jellyfin-config
+                  key: time_zone
+          volumeMounts:
+            - name: config
+              mountPath: /config
+              subPath: sonarr-config
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: jellyfin-config
+        - name: data
+          persistentVolumeClaim:
+            claimName: nas-pvc
+
+---
+
+# TODO: add service
