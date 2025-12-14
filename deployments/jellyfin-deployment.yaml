@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: jellyfin
+  namespace: jellyfin
 spec:
   replicas: 1
   selector:
@@ -70,6 +71,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: jellyfin
+  namespace: jellyfin
   annotations:
     metallb.io/loadBalancerIPs: 192.168.176.220
 spec:
