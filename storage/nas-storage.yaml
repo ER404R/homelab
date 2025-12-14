@@ -20,6 +20,7 @@ metadata:
   name: you-are-a-pirate-pvc
   namespace: jellyfin
 spec:
+  volumeName: nas-pv
   accessModes:
     - ReadWriteMany
   resources:
