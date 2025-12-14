@@ -6,18 +6,12 @@ spec:
   capacity:
     storage: 10Gi
   accessModes:
-    - ReadWriteOnce
-  storageClassName: local-storage
-  local:
-    path: /var/mnt/local-storage
-  nodeAffinity:
-    required:
-      nodeSelectorTerms:
-        - matchExpressions:
-          - key: kubernetes.io/hostname
-            operator: In
-            values:
-              - <your-node-name>
+    - ReadWriteMany
+  storageClassName: nfs-storage
+  nfs:
+    server: 192.168.176.150
+    path: /mnt/apps/cluster_storage
+  persistentVolumeReclaimPolicy: Retain
 
 ---
 
@@ -27,8 +21,8 @@ metadata:
   name: jellyfin-config
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
+  storageClassName: nfs-storage
   resources:
     requests:
-      storage: 20Gi
-    volumeName: jellyfin-config
+      storage: 10Gi
