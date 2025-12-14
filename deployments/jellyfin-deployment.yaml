@@ -34,19 +34,21 @@ spec:
           volumeMounts:
             - name: media
               mountPath: /media
-              subPath: media
               readOnly: true
             - name: config
               mountPath: /config
-              subPath: jellyfin-config
-            - name: config
+              subPath: jellyfin/config
+            - name: cache
               mountPath: /cache
-              subPath: jellyfin-cache
+              subPath: jellyfin/cache
       volumes:
         - name: media
           persistentVolumeClaim:
             claimName: nas-pvc
         - name: config
+          persistentVolumeClaim:
+            claimName: jellyfin-config
+        - name: cache
           persistentVolumeClaim:
             claimName: jellyfin-config
 
@@ -56,11 +58,14 @@ apiVersion: v1
 kind: Service
 metadata:
   name: jellyfin
+  annotations:
+    metallb.io/loadBalancerIPs: 192.168.176.220
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     app: jellyfin
   ports:
-    - port: 8096        # cluster port
-      targetPort: 8096  # container port
-      nodePort: 30096   # node port
+    - name: http
+      protocol: TCP
+      port: 8096
+      targetPort: 8096
