@@ -43,7 +43,7 @@ spec:
             claimName: jellyfin-config
         - name: data
           persistentVolumeClaim:
-            claimName: you_are_a_pirate-pvc
+            claimName: you-are-a-pirate-pvc
 
 ---
 

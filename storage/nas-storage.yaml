@@ -17,7 +17,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: you_are_a_pirate-pvc
+  name: you-are-a-pirate-pvc
   namespace: jellyfin
 spec:
   accessModes:
