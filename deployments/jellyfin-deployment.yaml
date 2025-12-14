@@ -57,7 +57,7 @@ spec:
       volumes:
         - name: media
           persistentVolumeClaim:
-            claimName: nas-pvc
+            claimName: you_are_a_pirate-pvc
         - name: config
           persistentVolumeClaim:
             claimName: jellyfin-config

@@ -17,7 +17,8 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: nas-pvc
+  name: you_are_a_pirate-pvc
+  namespace: jellyfin
 spec:
   accessModes:
     - ReadWriteMany
