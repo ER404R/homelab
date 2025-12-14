@@ -8,8 +8,8 @@ spec:
   accessModes:
     - ReadWriteMany
   nfs:
-    server: # TODO
-    path: # TODO
+    server: 192.168.176.150
+    path: /mnt/CloudPool/you_are_a_pirate
   persistentVolumeReclaimPolicy: Retain # keep data on pv delete
 
 ---
