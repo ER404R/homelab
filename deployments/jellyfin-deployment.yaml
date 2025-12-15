@@ -13,6 +13,20 @@ spec:
       labels:
         app: jellyfin
     spec:
+      # init container which creates directories for subpaths
+      initContainers:
+        - name: create-dirs
+          image: busybox
+          command: ["sh", "-c", "mkdir -p /mnt/config/jellyfin/config /mnt/config/jellyfin/cache"]
+          volumeMounts:
+            - name: config
+              mountPath: /mnt/config
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
@@ -22,7 +36,8 @@ spec:
           type: RuntimeDefault
       containers:
         - name: jellyfin
-          image: jellyfin/jellyfin:latest
+          image: jellyfin/jellyfin:10.11.5
+          imagePullPolicy: IfNotPresent
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -51,7 +66,7 @@ spec:
             - name: config
               mountPath: /config
               subPath: jellyfin/config
-            - name: cache
+            - name: config
               mountPath: /cache
               subPath: jellyfin/cache
       volumes:
@@ -59,9 +74,6 @@ spec:
           persistentVolumeClaim:
             claimName: you-are-a-pirate-pvc
         - name: config
-          persistentVolumeClaim:
-            claimName: jellyfin-config
-        - name: cache
           persistentVolumeClaim:
             claimName: jellyfin-config
 
