@@ -27,22 +27,14 @@ spec:
             allowPrivilegeEscalation: false
             capabilities:
               drop: ["ALL"]
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
-        seccompProfile:
-          type: RuntimeDefault
       containers:
         - name: jellyfin
           image: jellyfin/jellyfin:10.11.5
           imagePullPolicy: IfNotPresent
           securityContext:
-            allowPrivilegeEscalation: false
+            privileged: true
             capabilities:
-              drop: ["ALL"]
-            readOnlyRootFilesystem: false
+              add: ["IPC_LOCK"]
           env:
             - name: PUID
               valueFrom:
@@ -69,6 +61,9 @@ spec:
             - name: config
               mountPath: /cache
               subPath: jellyfin/cache
+            - name: dri
+              mountPath: /dev/dri
+
       volumes:
         - name: media
           persistentVolumeClaim:
@@ -76,6 +71,10 @@ spec:
         - name: config
           persistentVolumeClaim:
             claimName: jellyfin-config
+        - name: dri # stuff for quicksync to work
+          hostPath:
+            path: /dev/dri
+            type: Directory
 
 ---
 
