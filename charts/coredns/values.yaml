@@ -1,0 +1,30 @@
+isClusterService: false
+
+serviceType: "LoadBalancer"
+service:
+  type: LoadBalancer
+  annotations:
+    metallb.io/loadBalancerIPs: 192.168.176.230
+
+servers:
+- zones:
+  - zone: .
+    use_tcp: true
+  port: 53
+  plugins:
+  - name: errors
+  - name: health
+    configBlock: |-
+      lameduck 10s
+  - name: ready
+  - name: hosts
+    configBlock: |-
+      192.168.176.220 jellyfin lan.jellyfin
+      fallthrough
+  - name: forward
+    parameters: . 1.1.1.1 8.8.8.8
+  - name: cache
+    parameters: 30
+  - name: loop
+  - name: reload
+  - name: loadbalance
