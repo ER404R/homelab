@@ -1,8 +1,9 @@
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
-    name: cluster-pool
+    name: dual-stack-pool
     namespace: metallb-system
 spec:
     addresses:
-        - 192.168.176.220-192.168.176.229
+        - 192.168.176.230-192.168.176.239
+        - fd00:1234::230-fd00:1234::239

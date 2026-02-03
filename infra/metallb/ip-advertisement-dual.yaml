@@ -1,8 +1,8 @@
 apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
 metadata:
-    name: cluster-l2adv
+    name: dual-stack-l2adv
     namespace: metallb-system
 spec:
     ipAddressPools:
-        - cluster-pool
+        - dual-stack-pool
