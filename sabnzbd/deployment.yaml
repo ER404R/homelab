@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: radarr
+  name: sabnzbd
   namespace: jellyfin
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: radarr
+      app: sabnzbd
   template:
     metadata:
       labels:
-        app: radarr
+        app: sabnzbd
     spec:
       # init container which creates directories for subpaths
       initContainers:
         - name: create-dirs
           image: busybox
-          command: ["sh", "-c", "mkdir -p /mnt/config/radarr/config /mnt/config/usenet/complete /mnt/config/usenet/incomplete /mnt/config/usenet/watch"]
+          command: ["sh", "-c", "mkdir -p /mnt/config/sabnzbd/config /mnt/config/usenet/complete /mnt/config/usenet/incomplete /mnt/config/usenet/watch"]
           volumeMounts:
             - name: config
               mountPath: /mnt/config
@@ -28,39 +28,33 @@ spec:
             capabilities:
               drop: ["ALL"]
       containers:
-        - name: radarr
-          image: lscr.io/linuxserver/radarr:6.0.4.10291-ls288
+        - name: sabnzbd
+          image: lscr.io/linuxserver/sabnzbd:4.5.5-ls239
           imagePullPolicy: IfNotPresent
           env:
             - name: PUID
               valueFrom:
                 configMapKeyRef:
-                  name: jellyfin-config
+                  name: sabnzbd-config
                   key: user_id
             - name: PGID
               valueFrom:
                 configMapKeyRef:
-                  name: jellyfin-config
+                  name: sabnzbd-config
                   key: group_id
             - name: TZ
               valueFrom:
                 configMapKeyRef:
-                  name: jellyfin-config
+                  name: sabnzbd-config
                   key: time_zone
           volumeMounts:
-            - name: media
-              mountPath: /data/media
-              subPath: media/
             - name: config
               mountPath: /data/usenet
               subPath: usenet/
             - name: config
               mountPath: /config
-              subPath: radarr/config
+              subPath: sabnzbd/config
       volumes:
-        - name: media
-          persistentVolumeClaim:
-            claimName: you-are-a-pirate-pvc
         - name: config
           persistentVolumeClaim:
             claimName: jellyfin-config
@@ -70,14 +64,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: radarr
+  name: sabnzbd
   namespace: jellyfin
   annotations:
-    metallb.io/loadBalancerIPs: 192.168.176.221
+    metallb.io/loadBalancerIPs: 192.168.176.224
 spec:
   type: LoadBalancer
   selector:
-    app: radarr
+    app: sabnzbd
   ports:
     - name: http
       protocol: TCP

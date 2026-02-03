@@ -35,17 +35,17 @@ spec:
             - name: PUID
               valueFrom:
                 configMapKeyRef:
-                  name: jellyfin-config
+                  name: prowlarr-config
                   key: user_id
             - name: PGID
               valueFrom:
                 configMapKeyRef:
-                  name: jellyfin-config
+                  name: prowlarr-config
                   key: group_id
             - name: TZ
               valueFrom:
                 configMapKeyRef:
-                  name: jellyfin-config
+                  name: prowlarr-config
                   key: time_zone
           volumeMounts:
             - name: config

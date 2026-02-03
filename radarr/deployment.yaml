@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jellyfin
+  name: radarr
   namespace: jellyfin
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: jellyfin
+      app: radarr
   template:
     metadata:
       labels:
-        app: jellyfin
+        app: radarr
     spec:
       # init container which creates directories for subpaths
       initContainers:
         - name: create-dirs
           image: busybox
-          command: ["sh", "-c", "mkdir -p /mnt/config/jellyfin/config /mnt/config/jellyfin/cache"]
+          command: ["sh", "-c", "mkdir -p /mnt/config/radarr/config /mnt/config/usenet/complete /mnt/config/usenet/incomplete /mnt/config/usenet/watch"]
           volumeMounts:
             - name: config
               mountPath: /mnt/config
@@ -28,42 +28,35 @@ spec:
             capabilities:
               drop: ["ALL"]
       containers:
-        - name: jellyfin
-          image: jellyfin/jellyfin:10.11.5
+        - name: radarr
+          image: lscr.io/linuxserver/radarr:6.0.4.10291-ls288
           imagePullPolicy: IfNotPresent
-          securityContext:
-            privileged: true
-            capabilities:
-              add: ["IPC_LOCK"]
           env:
             - name: PUID
               valueFrom:
                 configMapKeyRef:
-                  name: jellyfin-config
+                  name: radarr-config
                   key: user_id
             - name: PGID
               valueFrom:
                 configMapKeyRef:
-                  name: jellyfin-config
+                  name: radarr-config
                   key: group_id
             - name: TZ
               valueFrom:
                 configMapKeyRef:
-                  name: jellyfin-config
+                  name: radarr-config
                   key: time_zone
           volumeMounts:
             - name: media
-              mountPath: /media
-              readOnly: true
+              mountPath: /data/media
+              subPath: media/
+            - name: config
+              mountPath: /data/usenet
+              subPath: usenet/
             - name: config
               mountPath: /config
-              subPath: jellyfin/config
-            - name: config
-              mountPath: /cache
-              subPath: jellyfin/cache
-            - name: dri
-              mountPath: /dev/dri
-
+              subPath: radarr/config
       volumes:
         - name: media
           persistentVolumeClaim:
@@ -71,26 +64,22 @@ spec:
         - name: config
           persistentVolumeClaim:
             claimName: jellyfin-config
-        - name: dri # stuff for quicksync to work
-          hostPath:
-            path: /dev/dri
-            type: Directory
 
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: jellyfin
+  name: radarr
   namespace: jellyfin
   annotations:
-    metallb.io/loadBalancerIPs: 192.168.176.220
+    metallb.io/loadBalancerIPs: 192.168.176.221
 spec:
   type: LoadBalancer
   selector:
-    app: jellyfin
+    app: radarr
   ports:
     - name: http
       protocol: TCP
-      port: 8096
-      targetPort: 8096
+      port: 8989
+      targetPort: 8989

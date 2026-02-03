@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sonarr
+  name: jellyfin
   namespace: jellyfin
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: sonarr
+      app: jellyfin
   template:
     metadata:
       labels:
-        app: sonarr
+        app: jellyfin
     spec:
       # init container which creates directories for subpaths
       initContainers:
         - name: create-dirs
           image: busybox
-          command: ["sh", "-c", "mkdir -p /mnt/config/sonarr/config /mnt/config/usenet/complete /mnt/config/usenet/incomplete /mnt/config/usenet/watch"]
+          command: ["sh", "-c", "mkdir -p /mnt/config/jellyfin/config /mnt/config/jellyfin/cache"]
           volumeMounts:
             - name: config
               mountPath: /mnt/config
@@ -28,9 +28,13 @@ spec:
             capabilities:
               drop: ["ALL"]
       containers:
-        - name: sonarr
-          image: lscr.io/linuxserver/sonarr:4.0.16.2944-ls300
+        - name: jellyfin
+          image: jellyfin/jellyfin:10.11.5
           imagePullPolicy: IfNotPresent
+          securityContext:
+            privileged: true
+            capabilities:
+              add: ["IPC_LOCK"]
           env:
             - name: PUID
               valueFrom:
@@ -49,14 +53,17 @@ spec:
                   key: time_zone
           volumeMounts:
             - name: media
-              mountPath: /data/media
-              subPath: media/
-            - name: config
-              mountPath: /data/usenet
-              subPath: usenet/
+              mountPath: /media
+              readOnly: true
             - name: config
               mountPath: /config
-              subPath: sonarr/config
+              subPath: jellyfin/config
+            - name: config
+              mountPath: /cache
+              subPath: jellyfin/cache
+            - name: dri
+              mountPath: /dev/dri
+
       volumes:
         - name: media
           persistentVolumeClaim:
@@ -64,22 +71,26 @@ spec:
         - name: config
           persistentVolumeClaim:
             claimName: jellyfin-config
+        - name: dri # stuff for quicksync to work
+          hostPath:
+            path: /dev/dri
+            type: Directory
 
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: sonarr
+  name: jellyfin
   namespace: jellyfin
   annotations:
-    metallb.io/loadBalancerIPs: 192.168.176.222
+    metallb.io/loadBalancerIPs: 192.168.176.220
 spec:
   type: LoadBalancer
   selector:
-    app: sonarr
+    app: jellyfin
   ports:
     - name: http
       protocol: TCP
-      port: 8989
-      targetPort: 8989
+      port: 8096
+      targetPort: 8096
