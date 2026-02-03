@@ -1,0 +1,18 @@
+ingressRoute:
+    dashboard:
+        enabled: true
+        matchRule: Host("traefik.homelab")
+        entryPoints:
+            - web
+providers:
+    kubernetesGateway:
+        enabled: true
+gateway:
+    listeners:
+        web:
+            namespacePolicy:
+                from: All
+service:
+    type: LoadBalancer
+    loadBalancerIPs:
+        - 192.168.176.240

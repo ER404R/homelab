@@ -59,21 +59,3 @@ spec:
           persistentVolumeClaim:
             claimName: jellyfin-config
 
----
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: sabnzbd
-  namespace: jellyfin
-  annotations:
-    metallb.io/loadBalancerIPs: 192.168.176.224
-spec:
-  type: LoadBalancer
-  selector:
-    app: sabnzbd
-  ports:
-    - name: http
-      protocol: TCP
-      port: 8989
-      targetPort: 8989

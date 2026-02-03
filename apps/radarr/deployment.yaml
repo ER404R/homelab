@@ -65,21 +65,3 @@ spec:
           persistentVolumeClaim:
             claimName: jellyfin-config
 
----
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: radarr
-  namespace: jellyfin
-  annotations:
-    metallb.io/loadBalancerIPs: 192.168.176.221
-spec:
-  type: LoadBalancer
-  selector:
-    app: radarr
-  ports:
-    - name: http
-      protocol: TCP
-      port: 8989
-      targetPort: 8989
