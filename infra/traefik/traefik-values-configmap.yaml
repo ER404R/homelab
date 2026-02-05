@@ -5,6 +5,12 @@ metadata:
     namespace: traefik
 data:
     values.yaml: |
+        deployment:
+            replicas: 1
+        ports:
+            web:
+                middlewares:
+                    - traefik-global-rate-limit@kubernetescrd
         ingressRoute:
             dashboard:
                 enabled: true
