@@ -52,9 +52,6 @@ spec:
               mountPath: /config
               subPath: prowlarr/config
       volumes:
-        - name: media
-          persistentVolumeClaim:
-            claimName: you-are-a-pirate-pvc
         - name: config
           persistentVolumeClaim:
             claimName: jellyfin-config

@@ -15,4 +15,4 @@ gateway:
 service:
     type: LoadBalancer
     annotations:
-        metallb.io/loadBalancerIPs: 192.168.176.231, fd00:1234::231
+        metallb.io/loadBalancerIPs: 192.168.176.231,fd00:1234::231

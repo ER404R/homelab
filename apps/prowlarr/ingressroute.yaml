@@ -11,4 +11,4 @@ spec:
       kind: Rule
       services:
         - name: prowlarr
-          port: 8989
+          port: 9696

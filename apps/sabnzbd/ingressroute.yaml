@@ -11,4 +11,4 @@ spec:
       kind: Rule
       services:
         - name: sabnzbd
-          port: 8989
+          port: 8080
