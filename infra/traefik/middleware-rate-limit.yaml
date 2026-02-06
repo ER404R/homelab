@@ -7,3 +7,4 @@ spec:
     rateLimit:
         average: 10
         burst: 10
+        period: 1s

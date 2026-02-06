@@ -1,9 +1,5 @@
 deployment:
     replicas: 1
-ports:
-    web:
-        middlewares:
-            - traefik-global-rate-limit@kubernetescrd
 ingressRoute:
     dashboard:
         enabled: true
@@ -12,7 +8,7 @@ ingressRoute:
             - web
 providers:
     kubernetesGateway:
-        enabled: true
+        enabled: false
 gateway:
     listeners:
         web:
