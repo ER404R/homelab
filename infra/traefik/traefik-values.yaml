@@ -1,20 +1,25 @@
 deployment:
     replicas: 1
-ingressRoute:
-    dashboard:
-        enabled: true
-        matchRule: Host("traefik.homelab")
-        entryPoints:
-            - web
 providers:
     kubernetesGateway:
-        enabled: false
+        enabled: true
 gateway:
+    enabled: true
+    name: traefik
+    namespace: traefik
     listeners:
         web:
+            port: 80
+            protocol: HTTP
             namespacePolicy:
                 from: All
+gatewayClass:
+    enabled: true
+    name: traefik
+ports:
+    web:
+        port: 80
 service:
     type: LoadBalancer
     annotations:
-        metallb.io/loadBalancerIPs: 192.168.176.231,fd00:1234::231
+        metallb.io/loadBalancerIPs: 192.168.176.231 #,fd00:1234::231
