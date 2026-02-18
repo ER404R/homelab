@@ -1,0 +1,9 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: ipallowlist
+  namespace: jellyfin
+spec:
+  ipAllowList:
+    sourceRange:
+      - 192.168.176.0/24
