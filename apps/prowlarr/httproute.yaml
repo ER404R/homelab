@@ -23,3 +23,10 @@ spec:
         - name: prowlarr
           namespace: jellyfin
           port: 9696
+
+      filters:
+        - type: ExtensionRef
+          extensionRef:
+            group: traefik.io
+            kind: Middleware
+            name: ipallowlist

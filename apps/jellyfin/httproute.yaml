@@ -23,3 +23,10 @@ spec:
         - name: jellyfin
           namespace: jellyfin
           port: 8096
+
+      filters:
+        - type: ExtensionRef
+          extensionRef:
+            group: traefik.io
+            kind: Middleware
+            name: ipallowlist

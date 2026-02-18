@@ -23,3 +23,10 @@ spec:
         - name: sabnzbd
           namespace: jellyfin
           port: 8080
+
+      filters:
+        - type: ExtensionRef
+          extensionRef:
+            group: traefik.io
+            kind: Middleware
+            name: ipallowlist

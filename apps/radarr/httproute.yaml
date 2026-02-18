@@ -23,3 +23,10 @@ spec:
         - name: radarr
           namespace: jellyfin
           port: 7878
+
+      filters:
+        - type: ExtensionRef
+          extensionRef:
+            group: traefik.io
+            kind: Middleware
+            name: ipallowlist
