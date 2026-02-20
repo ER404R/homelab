@@ -1,0 +1,51 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: cloud
+  namespace: traefik
+spec:
+  parentRefs:
+    - name: traefik
+      namespace: traefik
+      sectionName: websecure-cloud
+      kind: Gateway
+
+  hostnames:
+    - cloud.lolcathost.online
+    - www.cloud.lolcathost.online
+
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: cloud-ext
+          port: 80
+
+---
+
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: head
+  namespace: traefik
+spec:
+  parentRefs:
+    - name: traefik
+      namespace: traefik
+      sectionName: websecure-head
+      kind: Gateway
+
+  hostnames:
+    - head.lolcathost.online
+    - www.head.lolcathost.online
+
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: head-ext
+          port: 80

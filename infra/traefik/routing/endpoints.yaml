@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: cloud-ext
+  namespace: traefik
+subsets:
+  - addresses:
+    - ip: 192.168.176.150
+    ports:
+      - port: 10002
+
+---
+
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: head-ext
+  namespace: traefik
+subsets:
+  - addresses:
+    - ip: 192.168.176.150
+    ports:
+      - port: 10000
