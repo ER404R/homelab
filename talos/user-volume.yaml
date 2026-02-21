@@ -1,8 +1,0 @@
-apiVersion: v1alpha1
-kind: UserVolumeConfig
-name: node-storage
-provisioning:
-    diskSelector:
-        match: disk.size >= 200GB # the nodes only have one disk each. This is really lax but it works for my setup
-    minSize: 100GB
-    maxSize: 150GB
