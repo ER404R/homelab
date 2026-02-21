@@ -61,8 +61,6 @@ spec:
             - name: config
               mountPath: /cache
               subPath: jellyfin/cache
-            - name: dri
-              mountPath: /dev/dri
 
       volumes:
         - name: media
@@ -71,8 +69,4 @@ spec:
         - name: config
           persistentVolumeClaim:
             claimName: jellyfin-config
-        - name: dri # stuff for quicksync to work
-          hostPath:
-            path: /dev/dri
-            type: Directory
 
