@@ -22,6 +22,17 @@ spec:
       backendRefs:
         - name: cloud-ext
           port: 80
+      filters:
+        - type: ExtensionRef
+          extensionRef:
+            group: traefik.io
+            kind: Middleware
+            name: security-headers
+        - type: ExtensionRef
+          extensionRef:
+            group: traefik.io
+            kind: Middleware
+            name: rate-limit
 
 ---
 
@@ -49,3 +60,14 @@ spec:
       backendRefs:
         - name: head-ext
           port: 80
+      filters:
+        - type: ExtensionRef
+          extensionRef:
+            group: traefik.io
+            kind: Middleware
+            name: security-headers
+        - type: ExtensionRef
+          extensionRef:
+            group: traefik.io
+            kind: Middleware
+            name: rate-limit

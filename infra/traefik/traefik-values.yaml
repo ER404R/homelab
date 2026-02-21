@@ -3,6 +3,8 @@ deployment:
 providers:
     kubernetesGateway:
         enabled: true
+    kubernetesCRD:
+        enabled: true
 gateway:
     enabled: true
     name: traefik
