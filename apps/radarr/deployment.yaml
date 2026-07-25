@@ -29,7 +29,7 @@ spec:
               drop: ["ALL"]
       containers:
         - name: radarr
-          image: lscr.io/linuxserver/radarr:6.1.1.10360-ls304 # {"$imagepolicy": "flux-system:radarr"}
+          image: lscr.io/linuxserver/radarr:6.3.0.10514-ls311 # {"$imagepolicy": "flux-system:radarr"}
           imagePullPolicy: IfNotPresent
           env:
             - name: PUID
@@ -64,4 +64,3 @@ spec:
         - name: config
           persistentVolumeClaim:
             claimName: jellyfin-config
-
