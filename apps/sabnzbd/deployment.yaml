@@ -29,7 +29,7 @@ spec:
               drop: ["ALL"]
       containers:
         - name: sabnzbd
-          image: lscr.io/linuxserver/sabnzbd:5.0.3-ls256 # {"$imagepolicy": "flux-system:sabnzbd"}
+          image: lscr.io/linuxserver/sabnzbd:5.0.4-ls258 # {"$imagepolicy": "flux-system:sabnzbd"}
           imagePullPolicy: IfNotPresent
           env:
             - name: PUID
@@ -58,4 +58,3 @@ spec:
         - name: config
           persistentVolumeClaim:
             claimName: jellyfin-config
-

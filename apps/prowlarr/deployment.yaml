@@ -29,7 +29,7 @@ spec:
               drop: ["ALL"]
       containers:
         - name: prowlarr
-          image: lscr.io/linuxserver/prowlarr:2.4.0.5397-ls152 # {"$imagepolicy": "flux-system:prowlarr"}
+          image: lscr.io/linuxserver/prowlarr:2.5.2.5491-ls155 # {"$imagepolicy": "flux-system:prowlarr"}
           imagePullPolicy: IfNotPresent
           env:
             - name: PUID
@@ -55,4 +55,3 @@ spec:
         - name: config
           persistentVolumeClaim:
             claimName: jellyfin-config
-
