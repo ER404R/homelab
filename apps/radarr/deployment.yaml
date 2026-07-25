@@ -29,7 +29,7 @@ spec:
               drop: ["ALL"]
       containers:
         - name: radarr
-          image: lscr.io/linuxserver/radarr:6.1.1.10360-ls304
+          image: lscr.io/linuxserver/radarr:6.1.1.10360-ls304 # {"$imagepolicy": "flux-system:radarr"}
           imagePullPolicy: IfNotPresent
           env:
             - name: PUID
