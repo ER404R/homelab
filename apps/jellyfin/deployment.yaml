@@ -29,7 +29,7 @@ spec:
               drop: ["ALL"]
       containers:
         - name: jellyfin
-          image: jellyfin/jellyfin:10.11.10 # {"$imagepolicy": "flux-system:jellyfin"}
+          image: jellyfin/jellyfin:10.11.11 # {"$imagepolicy": "flux-system:jellyfin"}
           imagePullPolicy: IfNotPresent
           securityContext:
             privileged: true
@@ -61,7 +61,6 @@ spec:
             - name: config
               mountPath: /cache
               subPath: jellyfin/cache
-
       volumes:
         - name: media
           persistentVolumeClaim:
@@ -69,4 +68,3 @@ spec:
         - name: config
           persistentVolumeClaim:
             claimName: jellyfin-config
-
