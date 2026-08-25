@@ -29,7 +29,7 @@ spec:
               drop: ["ALL"]
       containers:
         - name: sabnzbd
-          image: lscr.io/linuxserver/sabnzbd:5.1.1-ls267 # {"$imagepolicy": "flux-system:sabnzbd"}
+          image: lscr.io/linuxserver/sabnzbd:5.1.2-ls269 # {"$imagepolicy": "flux-system:sabnzbd"}
           imagePullPolicy: IfNotPresent
           env:
             - name: PUID
