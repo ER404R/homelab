@@ -29,7 +29,7 @@ spec:
               drop: ["ALL"]
       containers:
         - name: prowlarr
-          image: lscr.io/linuxserver/prowlarr:2.5.2.5491-ls155 # {"$imagepolicy": "flux-system:prowlarr"}
+          image: lscr.io/linuxserver/prowlarr:2.6.5.5623-ls161 # {"$imagepolicy": "flux-system:prowlarr"}
           imagePullPolicy: IfNotPresent
           env:
             - name: PUID
